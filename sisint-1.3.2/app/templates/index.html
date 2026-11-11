@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>SISINT</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/favicon-180.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  <script src="{{ url_for('static', filename='js/charts.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</head>
+<body data-role="{{ user.role }}" data-user="{{ user.username }}" data-demo="{{ '1' if demo else '0' }}">
+<div class="shell">
+  <aside class="side">
+    <div class="brand"><span class="brand-logo" role="img" aria-label="SISINT - sistemas integrados"></span></div>
+    <nav class="nav" aria-label="Navegação principal">
+      <a href="#/dashboard" data-view="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg><span>Dashboard</span></a>
+      <a href="#/discovery/new" data-view="discovery"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span>Levantamento</span></a>
+      <a href="#/inventory" data-view="inventory"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>Inventário</span></a>
+      <a href="#/assets" data-view="assets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5v14"/><circle cx="12" cy="12" r="9"/></svg><span>Ligações</span></a>
+      <a href="#/devices" data-view="devices"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 12h.01M10 12h.01M14 12h.01"/></svg><span>Equipamentos</span></a>
+      <a href="#/scan" data-view="scan" data-min-role="operator"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><span>Recolha</span></a>
+      <a href="#/history" data-view="history"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg><span>Histórico</span></a>
+      <a href="#/admin" data-view="admin" data-min-role="admin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg><span>Segurança</span></a>
+    </nav>
+    <div class="side-foot">
+      <div class="who">{{ user.username }}</div>
+      <div class="muted">{{ user.role }}</div>
+      <button class="btn link" id="logout" type="button">Terminar sessão</button>
+    </div>
+  </aside>
+
+  <main class="main" id="main" tabindex="-1">
+    <div class="topbar">
+      <div id="page-head"></div>
+      <button class="live hidden" id="live" type="button" aria-live="polite">
+        <span class="badge running">a processar</span><span id="live-text"></span><span class="bar"><i id="live-bar"></i></span>
+      </button>
+    </div>
+    <div id="view"></div>
+  </main>
+</div>
+<div class="tooltip hidden" id="tooltip" role="status"></div>
+</body>
+</html>

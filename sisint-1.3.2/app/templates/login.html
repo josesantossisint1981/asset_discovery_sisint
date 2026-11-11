@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SISINT · Entrar</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/favicon-180.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body>
+<main class="login">
+  <form class="card" method="post" action="{{ url_for('auth.login') }}" autocomplete="on">
+    <div class="brand"><span class="brand-logo" role="img" aria-label="SISINT - sistemas integrados"></span></div>
+    <h1>Entrar</h1>
+    <p class="sub">Levantamento digital de redes OT.</p>
+    {% if error %}<div class="alert err" role="alert">{{ error }}</div>{% endif %}
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label for="username">Utilizador</label>
+    <input id="username" name="username" required maxlength="32" autocomplete="username" autofocus>
+    <label for="password">Palavra-passe</label>
+    <input id="password" name="password" type="password" required maxlength="128" autocomplete="current-password">
+    <button class="btn primary" type="submit">Entrar</button>
+  </form>
+</main>
+</body>
+</html>

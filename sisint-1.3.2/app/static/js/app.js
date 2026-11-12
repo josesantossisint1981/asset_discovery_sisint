@@ -496,19 +496,104 @@ function renderAssets(card, d, expanded, prev) {
   }
 }
 
+
 function assetDetail(a) {
   const srcs = Object.entries(a.sources || {});
+
   return h("div", { class: "detail-grid" },
-    h("div", {}, h("h3", {}, "Origem de cada campo"), h("table", { class: "mini" }, h("tbody", {}, srcs.map(([f, s]) =>
-      h("tr", {}, h("th", {}, f), h("td", {}, a[f] || ""), h("td", { class: "muted" }, `${s.source} (${Math.round(s.conf)}%)`))))),
-      a.hostname || a.os ? h("p", {}, a.hostname ? `Nome: ${a.hostname}. ` : "", a.os ? `SO: ${a.os}.` : "") : ""),
-    h("div", {}, h("h3", {}, "Portas e serviços"), a.ports.length ? h("ul", {}, a.ports.map(p =>
-      h("li", {}, h("span", { class: "mono" }, `${p.port}/${p.proto}`), ` ${p.service || ""} ${p.product || ""} ${p.version || ""}`))) : h("p", { class: "muted" }, "Nenhuma porta aberta."),
-      (a.plan || []).length ? [h("h3", {}, "Protocolos usados"), h("ul", {}, a.plan.map(p => h("li", {}, h("strong", {}, p.probe.toUpperCase()), ` → ${p.fields}: ${p.how}`)))] : ""),
-    h("div", {}, h("h3", {}, "Em falta e como obter"),
-      a.missing && a.missing.length ? h("p", {}, `Falta: ${a.missing.map(m => (FIELDS.find(f => f[0] === m) || [m, m])[1]).join(", ")}`) : h("p", {}, "Ficha completa ✓"),
-      (a.suggestions || []).length ? h("ul", {}, a.suggestions.map(s => h("li", {}, s))) : "",
-      (a.evidence || []).length ? [h("h3", {}, "Evidências"), h("ul", { class: "small" }, a.evidence.slice(-8).map(e => h("li", {}, h("span", { class: "muted" }, `${e.source}: `), e.text)))] : ""));
+
+    h("div", {},
+      h("h3", {}, "Origem de cada campo"),
+
+      h("table", { class: "mini" },
+        h("tbody", {},
+          srcs.map(([f, s]) =>
+            h("tr", {},
+              h("th", {}, f),
+              h("td", {}, a[f] || ""),
+              h("td", { class: "muted" },
+                `${s.source} (${Math.round(s.conf)}%)`
+              )
+            )
+          )
+        )
+      ),
+
+      a.hostname || a.os
+        ? h("p", {},
+            a.hostname ? `Nome: ${a.hostname}. ` : "",
+            a.os ? `SO: ${a.os}.` : ""
+          )
+        : ""
+    ),
+
+    h("div", {},
+      h("h3", {}, "Portas e serviços"),
+
+      a.ports.length
+        ? h("ul", {},
+            a.ports.map(p =>
+              h("li", {},
+                h("span", { class: "mono" },
+                  `${p.port}/${p.proto}`
+                ),
+                ` ${p.service || ""} ${p.product || ""} ${p.version || ""}`
+              )
+            )
+          )
+        : h("p", { class: "muted" },
+            "Nenhuma porta aberta."
+          ),
+
+      (a.plan || []).length
+        ? [
+            h("h3", {}, "Protocolos usados"),
+            h("ul", {},
+              a.plan.map(p =>
+                h("li", {},
+                  h("strong", {}, p.probe.toUpperCase()),
+                  ` → ${p.fields}: ${p.how}`
+                )
+              )
+            )
+          ]
+        : ""
+    ),
+
+    h("div", {},
+      h("h3", {}, "Em falta e como obter"),
+
+      a.missing && a.missing.length
+        ? h("p", {},
+            `Falta: ${a.missing.map(m =>
+              (FIELDS.find(f => f[0] === m) || [m, m])[1]
+            ).join(", ")}`
+          )
+        : h("p", {}, "Ficha completa ✓"),
+
+      (a.suggestions || []).length
+        ? h("ul", {},
+            a.suggestions.map(s => h("li", {}, s))
+          )
+        : "",
+
+      (a.evidence || []).length
+        ? [
+            h("h3", {}, "Evidências"),
+            h("ul", { class: "small" },
+              a.evidence.slice(-8).map(e =>
+                h("li", {},
+                  h("span", { class: "muted" },
+                    `${e.source}: `
+                  ),
+                  e.text
+                )
+              )
+            )
+          ]
+        : ""
+    )
+  );
 }
 
 // ------------------------------------------------------- inventário consolidado
